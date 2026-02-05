@@ -1,5 +1,8 @@
 import { NewNoteContent, Note } from "@/types/note";
 import { nextServer } from "./api";
+import { User } from "@/types/user";
+import { CheckSessionRequest } from "./serverApi";
+
 
 
 export  interface FetchNotesResponse {
@@ -39,9 +42,44 @@ export async function fetchNoteById(id: Note["id"]) {
     return res.data;
 }
 
-export async function register(){}
-export async function login(){}
-export async function logout(){}
-export async function checkSession(){}
-export async function getMe(){}
-export async function updateMe(){}
+export type RegisterRequest = {
+  email: string;
+  password: string;
+};
+
+export async function register(data: RegisterRequest) {
+    const res = await nextServer.post<User>('/auth/register', data);
+    return res.data;
+};
+
+export type LoginRequest = {
+  email: string;
+  password: string;
+};
+
+export async function login(data: LoginRequest) {
+    const res = await nextServer.post<User>('/auth/login', data);
+  return res.data;
+}
+
+export const logout = async (): Promise<void> => {
+  await nextServer.post('/auth/logout')
+};
+
+
+export async function checkSession() {
+    const res = await nextServer.get<CheckSessionRequest>('/auth/session');
+  return res.data.success;
+}
+export async function getMe() {
+    const { data } = await nextServer.get<User>('/users/me');
+    return data;
+}
+
+interface UpdateUserRequest {
+    username: string
+}
+export async function updateMe(data: UpdateUserRequest): Promise<User> {
+    const res = await nextServer.patch<User>('/users/me', data);
+    return res.data;
+}

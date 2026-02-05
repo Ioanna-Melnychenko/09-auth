@@ -7,8 +7,9 @@ import { useState } from 'react';
 import Pagination from '@/components/Pagination/Pagination';
 import { useDebouncedCallback } from 'use-debounce';
 import NoteList from '@/components/NoteList/NoteList';
-import { fetchNotes } from '@/lib/api';
+
 import Link from 'next/link';
+import { fetchNotes } from '@/lib/api/clientApi';
 
 interface NotesClientProps {
   tag: string;
