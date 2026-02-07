@@ -22,7 +22,7 @@ export async function fetchNotes(page: number, searchQuery: string, tag: string)
 }
 
 export async function fetchNoteById(id: Note["id"]) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const res = await nextServer.get<Note>(`/notes/${id}`, {
     headers: {
         Cookie: (await cookieStore).toString(),
