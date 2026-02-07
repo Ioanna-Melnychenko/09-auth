@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { getMe, updateMe } from '@/lib/api/clientApi';
 import { User } from '@/types/user';
+import { useAuthStore } from '@/lib/store/authStore';
 
 const EditProfilePage = () => {
   const router = useRouter();
@@ -37,13 +38,18 @@ const EditProfilePage = () => {
     setNewUserName(event.target.value.trim());
   };
 
+  const setAuthUser = useAuthStore(state => state.setUser);
+
   const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      await updateMe({ username: newUserName });
-      if (user) {
-        setUser({ ...user, username: newUserName });
-      }
+      // await updateMe({ username: newUserName });
+      // if (user) {
+      //   setUser({ ...user, username: newUserName });
+      // }
+      const updatedUser = await updateMe({ username: newUserName });
+
+      setAuthUser(updatedUser);
       router.push('/profile');
     } catch (error) {
       console.error(error);
@@ -74,7 +80,7 @@ const EditProfilePage = () => {
             />
           </div>
 
-          <p>Email: user_email@example.com</p>
+          <p>Email: {user?.email}</p>
 
           <div className={css.actions}>
             <button type="submit" className={css.saveButton}>

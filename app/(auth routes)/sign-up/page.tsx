@@ -7,7 +7,7 @@ import { register, RegisterRequest } from '@/lib/api/clientApi';
 import { ApiError } from '@/lib/api/api';
 import { useAuthStore } from '@/lib/store/authStore';
 
-const SighUpPage = () => {
+const SignUpPage = () => {
   const router = useRouter();
   const [error, setError] = useState('');
 
@@ -72,4 +72,4 @@ const SighUpPage = () => {
   );
 };
 
-export default SighUpPage;
+export default SignUpPage;
